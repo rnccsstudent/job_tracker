@@ -2,7 +2,7 @@ import streamlit as st
 import mysql.connector
 import pandas as pd
 from datetime import date
-from db_config import DB_HOST, DB_PORT, DB_USER, DB_PASSWORD, DB_NAME
+#from db_config import DB_HOST, DB_PORT, DB_USER, DB_PASSWORD, DB_NAME
 
 st.set_page_config(page_title="Job Tracker", layout="centered")
 
