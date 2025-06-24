@@ -9,11 +9,11 @@ st.set_page_config(page_title="Job Tracker", layout="centered")
 # Connect to DB
 def connect_db():
     return mysql.connector.connect(
-        host=DB_HOST,
-        port=DB_PORT,
-        user=DB_USER,
-        password=DB_PASSWORD,
-        database=DB_NAME
+        host=st.secrets["mysql"]["host"],
+        port=int(st.secrets["mysql"]["port"]),
+        user=st.secrets["mysql"]["user"],
+        password=st.secrets["mysql"]["password"],
+        database=st.secrets["mysql"]["database"]
     )
 
 # Load Data
