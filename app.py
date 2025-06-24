@@ -93,6 +93,9 @@ jobs = get_all_jobs()
 df = pd.DataFrame(jobs)
 
 if not df.empty:
+    # Excel-এ date_applied সঠিক দেখানোর জন্য format করলাম
+    df['date_applied'] = pd.to_datetime(df['date_applied']).dt.strftime('%d-%m-%Y')
+
     status_filter = st.selectbox("🔍 Filter by Status", ["All"] + df["status"].unique().tolist())
     if status_filter != "All":
         df = df[df["status"] == status_filter]
@@ -111,6 +114,12 @@ if not df.empty:
                 st.success("🗑️ Deleted!")
                 st.rerun()
 
-    st.download_button("📥 Download CSV", data=df.to_csv(index=False), file_name="job_tracker.csv", mime="text/csv")
+    st.download_button(
+        "📥 Download CSV",
+        data=df.to_csv(index=False),
+        file_name="job_tracker.csv",
+        mime="text/csv"
+    )
 else:
     st.info("No jobs found. Add one from above.")
+
