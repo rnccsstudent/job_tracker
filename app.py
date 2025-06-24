@@ -2,7 +2,6 @@ import streamlit as st
 import mysql.connector
 import pandas as pd
 from datetime import date
-#from db_config import DB_HOST, DB_PORT, DB_USER, DB_PASSWORD, DB_NAME
 
 st.set_page_config(page_title="Job Tracker", layout="centered")
 
@@ -25,7 +24,7 @@ def get_all_jobs():
     conn.close()
     return result
 
-# Add/Update Job
+# Add or Update Job
 def add_job(job, edit_id=None):
     conn = connect_db()
     cursor = conn.cursor()
@@ -49,7 +48,7 @@ def delete_job(job_id):
     conn.commit()
     conn.close()
 
-# Streamlit App UI
+# Main UI
 st.title("📋 Job Application Tracker")
 
 with st.expander("➕ Add or Edit Job"):
@@ -66,29 +65,31 @@ with st.expander("➕ Add or Edit Job"):
             data = (job_title, company, job_url, status, date_applied, notes)
             add_job(data, edit_id if edit_id else None)
             st.success("✅ Job saved successfully")
-            st.rerun()
+            st.rerun()  # use st.experimental_rerun() if you're using old version
 
-# Show Jobs
+# Display Jobs
 jobs = get_all_jobs()
 df = pd.DataFrame(jobs)
-status_filter = st.selectbox("🔍 Filter by Status", ["All"] + df["status"].unique().tolist() if not df.empty else [])
-
-if status_filter and status_filter != "All":
-    df = df[df["status"] == status_filter]
-
-for _, row in df.iterrows():
-    with st.expander(f"{row['job_title']} at {row['company']}"):
-        st.write(f"🔗 [Link]({row['url']})")
-        st.write(f"🗓️ Applied: {row['date_applied']}")
-        st.write(f"📌 Status: {row['status']}")
-        st.write(f"📝 Notes: {row['notes']}")
-        col1, col2 = st.columns(2)
-        if col1.button("📝 Edit", key=f"edit_{row['id']}"):
-            st.warning(f"Scroll up and enter Job ID: {row['id']} to edit")
-        if col2.button("❌ Delete", key=f"del_{row['id']}"):
-            delete_job(row['id'])
-            st.success("🗑️ Deleted!")
-            st.rerun()
 
 if not df.empty:
+    status_filter = st.selectbox("🔍 Filter by Status", ["All"] + df["status"].unique().tolist())
+    if status_filter != "All":
+        df = df[df["status"] == status_filter]
+
+    for _, row in df.iterrows():
+        with st.expander(f"{row['job_title']} at {row['company']}"):
+            st.write(f"🔗 [Job Link]({row['url']})")
+            st.write(f"🗓️ Applied: {row['date_applied']}")
+            st.write(f"📌 Status: {row['status']}")
+            st.write(f"📝 Notes: {row['notes']}")
+            col1, col2 = st.columns(2)
+            if col1.button("📝 Edit", key=f"edit_{row['id']}"):
+                st.warning(f"Scroll up and enter Job ID: {row['id']} to edit")
+            if col2.button("❌ Delete", key=f"del_{row['id']}"):
+                delete_job(row['id'])
+                st.success("🗑️ Deleted!")
+                st.rerun()
+
     st.download_button("📥 Download CSV", data=df.to_csv(index=False), file_name="job_tracker.csv", mime="text/csv")
+else:
+    st.info("No jobs found. Add one from above.")
