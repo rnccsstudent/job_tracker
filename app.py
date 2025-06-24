@@ -3,6 +3,27 @@ import mysql.connector
 import pandas as pd
 from datetime import date
 
+# -------------------------------
+# 👤 Simple Login (only for you)
+# -------------------------------
+def login():
+    st.title("🔒 Job Tracker Login")
+    username = st.text_input("Username")
+    password = st.text_input("Password", type="password")
+    if st.button("Login"):
+        if username == st.secrets["auth"]["username"] and password == st.secrets["auth"]["password"]:
+            st.session_state.logged_in = True
+            st.experimental_rerun()
+        else:
+            st.error("❌ Invalid credentials")
+
+if "logged_in" not in st.session_state:
+    st.session_state.logged_in = False
+
+if not st.session_state.logged_in:
+    login()
+    st.stop()  # 🚫 Stop running anything below if not logged in
+
 st.set_page_config(page_title="Job Tracker", layout="centered")
 
 # Connect to DB
