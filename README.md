@@ -21,11 +21,11 @@ A simple and secure web-based Job Application Tracker built with **Python**, **S
 
 | Login | Add Job |
 |-------|---------|
-| ![Login](images/login.png) | ![Add Job](images/add_job.png) |
+| ![Login](login.png) | ![Add Job](add_job.png) |
 
 | Edit Job | Logout |
 |----------|--------|
-| ![Edit](images/edit_job.png) | ![Logout](images/logout.png) |
+| ![Edit](edit_job.png) | ![Logout](logout.png) |
 
 ---
 
