@@ -44,19 +44,10 @@ job_tracker/
 ├── app.py                # Main Streamlit App
 ├── requirements.txt      # Python dependencies
 ├── README.md             # Project description
-└── images/               # Folder for screenshots
+ # Folder for screenshots
     ├── login.png         # Screenshot - Login Page
-    ├── add_job.png       # Screenshot - Add Job
-    ├── edit_job.png      # Screenshot - Edit Job
+    ├── add.png           # Screenshot - Add Job
+    ├── edit.png          # Screenshot - Edit Job
     └── logout.png        # Screenshot - Logout
 ```
 
-## 📁 Project Structure
-job_tracker/
-├── app.py # Main Streamlit App
-├── requirements.txt # Python dependencies
-├── README.md # This file
-├── login.png
-├── add_job.png
-├── edit_job.png
-└── logout.png
