@@ -23,6 +23,11 @@ if "logged_in" not in st.session_state:
 if not st.session_state.logged_in:
     login()
     st.stop()  # 🚫 Stop running anything below if not logged in
+# Add Logout button on top right corner
+logout_button = st.sidebar.button("🚪 Logout")
+if logout_button:
+    st.session_state.logged_in = False
+    st.rerun()
 
 st.set_page_config(page_title="Job Tracker", layout="centered")
 
